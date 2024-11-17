@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { useTranscribeStreamingState } from './hooks/useTranscribeStreaming';
 
 const App: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const {i18n } = useTranslation();
   const [content, setContent] = useState('');
   const [language, setLanguage] = useState('日本語');
   const [questionedContents, setQuestionedContents] = useState<string[]>(['']);
@@ -70,6 +70,11 @@ const App: React.FC = () => {
     [i18n]
   );
 
+  const onRegisterPrompt = useCallback(() => {
+    const systemPrompt = sessionStorage.getItem('systemPrompt')
+    console.log(systemPrompt)
+  }, []);
+
   return (
     <div className="bg-background-white text-text-black relative">
       <div className="relative h-screen w-screen">
@@ -83,45 +88,45 @@ const App: React.FC = () => {
             onChange={onChangeLanguage}
           />
         </div>
-        <div className=" absolute top-10 z-10 flex w-full flex-col items-center">
-          {answerText === '' && (
-            <div className="bg-primary text-text-white rounded-md p-5 text-2xl">
-              {t('message.initial')
-                .split('\n')
-                .map((s) => (
-                  <div>{s}</div>
-                ))}
-            </div>
-          )}
+        <div className=" absolute top-10 z-20 flex w-full flex-col items-center">
+          {/*{answerText === '' && (*/}
+          {/*  <div className="bg-primary text-text-white rounded-md p-5 text-2xl">*/}
+          {/*    {t('message.initial')*/}
+          {/*      .split('\n')*/}
+          {/*      .map((s) => (*/}
+          {/*        <div>{s}</div>*/}
+          {/*      ))}*/}
+          {/*  </div>*/}
+          {/*)}*/}
 
           <div className="flex w-3/4 flex-col items-center">
-            {questionedContents.map((qc, idx) => (
-              <React.Fragment key={idx}>
-                {idx >= questionedContents.length - 2 && (
-                  <div
-                    className={`${
-                      qc === ''
-                        ? 'translate-y-[70vh] opacity-0'
-                        : 'translate-y-0'
-                    } transision border-primary/50  mb-5 w-4/5 rounded-md border-2 bg-white/50 p-3 duration-500`}>
-                    {qc}
-                  </div>
-                )}
-              </React.Fragment>
-            ))}
+            {/*{questionedContents.map((qc, idx) => (*/}
+            {/*  <React.Fragment key={idx}>*/}
+            {/*    {idx >= questionedContents.length - 2 && (*/}
+            {/*      <div*/}
+            {/*        className={`${*/}
+            {/*          qc === ''*/}
+            {/*            ? 'translate-y-[70vh] opacity-0'*/}
+            {/*            : 'translate-y-0'*/}
+            {/*        } transision border-primary/50  mb-5 w-4/5 rounded-md border-2 bg-white/50 p-3 duration-500`}>*/}
+            {/*        {qc}*/}
+            {/*      </div>*/}
+            {/*    )}*/}
+            {/*  </React.Fragment>*/}
+            {/*))}*/}
 
             {answerText !== '' && (
               <>
-                <div className="bg-primary text-text-white -mt-10 rounded-md p-5 text-2xl">
+                <div className="bg-primary text-text-white -mt-0 rounded-md p-5 text-2xl">
                   {answerText}
                 </div>
-                <div className="border-t-primary h-8 w-8 border-[20px] border-transparent "></div>
+                <div className="border-t-primary h-8 w-8 border-[20px] border-transparent"></div>
               </>
             )}
           </div>
         </div>
         <div className="absolute h-full w-full">
-          <Engine antialias adaptToDeviceRatio width="100%" height="100%">
+        <Engine antialias adaptToDeviceRatio width="100%" height="100%">
             <Scene clearColor={new Color4(0.95, 0.95, 0.95)}>
               <arcRotateCamera
                 name="Camera"
@@ -146,6 +151,7 @@ const App: React.FC = () => {
           disabled={isLoading}
           onChange={setContent}
           onSend={onSendQuestion}
+          onRegisterPrompt={onRegisterPrompt}
         />
       </div>
       <div className="bg-primary fixed bottom-0 h-10 w-full" />

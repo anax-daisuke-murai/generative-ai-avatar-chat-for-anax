@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "lint": "npx prettier --write .",
-    "cdk:deploy": "npm exec -w cdk -- cdk deploy --all -O output.json",
+    "cdk:deploy": "npm exec -w cdk -- cdk deploy --all -O output.json --profile dev-anax",
     "cdk:destroy": "npm exec -w cdk -- cdk destroy --all",
     "web:dev": "npm run dev -w web",
     "web:build": "npm run build -w web"
