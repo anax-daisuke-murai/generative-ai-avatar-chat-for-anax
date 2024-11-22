@@ -12,7 +12,7 @@ const client = new BedrockRuntimeClient({
 const modelId = process.env.BEDROCK_MODELID;
 
 const inferenceConfig: InferenceConfiguration = {
-  maxTokens: 300,
+  maxTokens: 1000,
   temperature: 0,
   topP: 0.999
 };
