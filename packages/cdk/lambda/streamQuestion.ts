@@ -12,6 +12,7 @@ type QuestionRequest = {
   questionLangCode: string;
 };
 
+
 declare global {
   namespace awslambda {
     function streamifyResponse(
@@ -36,7 +37,7 @@ export const handler = awslambda.streamifyResponse(
     //   question = TranslatedText ?? '';
     // }
 
-    const documents = (await kendraApi.retrieve(question)).ResultItems ?? [];
+    // const documents = (await kendraApi.retrieve(question)).ResultItems ?? [];
 
     const prompt = ragPrompt.qaPrompt(systemPrompt, question);
     for await (const token of api.invokeStream(prompt)) {

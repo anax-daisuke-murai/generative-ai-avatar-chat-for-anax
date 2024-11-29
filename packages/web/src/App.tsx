@@ -34,7 +34,7 @@ const App: React.FC = () => {
         produce(questionedContents, (draft) => {
           draft[draft.length - 1] = questionContent;
           draft.push('');
-        })
+        }),
       );
       startThinking();
       try {
@@ -45,7 +45,7 @@ const App: React.FC = () => {
           prompt,
           language,
           LANGUAGE_OPTIONS.filter((l) => l.value === language)[0].code,
-          startSpeech
+          startSpeech,
         ).finally(() => {
           setIsLoading(false);
         });
@@ -61,17 +61,13 @@ const App: React.FC = () => {
       startSpeech,
       startThinking,
       stopThinking,
-    ]
+    ],
   );
-  // const onChangeLanguage = useCallback(
-  //   (lang: string) => {
-  //     setLanguage(lang);
-  //     i18n.changeLanguage(
-  //       LANGUAGE_OPTIONS.filter((l) => l.value === lang)[0].code
-  //     );
-  //   },
-  //   [i18n]
-  // );
+
+  const onRegisterPrompt = useCallback(() => {
+    const systemPrompt = sessionStorage.getItem('systemPrompt');
+    console.log(systemPrompt);
+  }, []);
 
   const onRegisterPrompt = useCallback(() => {
     const systemPrompt = sessionStorage.getItem('systemPrompt');
