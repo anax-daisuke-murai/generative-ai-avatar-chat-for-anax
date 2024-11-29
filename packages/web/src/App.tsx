@@ -38,7 +38,7 @@ const App: React.FC = () => {
       );
       startThinking();
       try {
-        const prompt = sessionStorage.getItem('systemPrompt') || ''
+        const prompt = sessionStorage.getItem('systemPrompt') || '';
 
         question(
           questionContent,
@@ -93,7 +93,12 @@ const App: React.FC = () => {
         {/*</div>*/}
         <div className=" absolute top-10 z-20 flex w-full flex-col items-center">
           {answerText === '' && (
-            <div className="bg-primary text-text-white rounded-md mt-20 p-5 text-base">
+            <div className="rounded-md mt-20 p-5 text-base"
+                 style={{
+                   backgroundColor: '#e0f7fa',
+                   color: '#000000'
+                 }}
+            >
               {t('message.initial')
                 .split('\n')
                 .map((s) => (
@@ -120,8 +125,18 @@ const App: React.FC = () => {
 
             {answerText !== '' && (
               <>
-                  <div className="bg-primary text-text-white mt-10 ml-60 rounded-md p-5 text-base">
-                  {answerText}
+                <div
+                  className="mt-10 ml-60 rounded-md p-5 text-base"
+                  style={{
+                    maxHeight: '500px',
+                    overflowY: 'auto',
+                    backgroundColor: '#e0f7fa',
+                    color: '#000000'
+                }}
+                >
+                  {answerText.split(/\n/).map((line, index) => (
+                    line.trim() === '' ? <br key={index} /> : <div key={index}>{line}</div>
+                  ))}
                 </div>
                 {/*<div className="border-t-primary h-8 w-8 border-[20px] border-transparent"></div>*/}
               </>
