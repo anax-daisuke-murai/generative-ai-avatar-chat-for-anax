@@ -20,7 +20,7 @@ type Props = {
   disabled?: boolean;
   onChange: (s: string) => void;
   onSend: (content: string) => void;
-  onRegisterPrompt: () => void
+  onRegisterPrompt: () => void;
 };
 
 const InputQuestion: React.FC<Props> = (props) => {
@@ -34,8 +34,6 @@ const InputQuestion: React.FC<Props> = (props) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
-
 
   const { t } = useTranslation();
   const disabledSend = useMemo(() => {

@@ -7,21 +7,21 @@ import useAvatar from './hooks/useAvatar';
 import useQuestion from './hooks/useQuestion';
 import InputQuestion from './components/InputQuestion';
 import { produce } from 'immer';
-import Select from './components/Select';
-import { PiGlobe } from 'react-icons/pi';
+// import Select from './components/Select';
+// import { PiGlobe } from 'react-icons/pi';
 import './i18n';
 import { LANGUAGE_OPTIONS } from './i18n';
 import { useTranslation } from 'react-i18next';
-import { useTranscribeStreamingState } from './hooks/useTranscribeStreaming';
+// import { useTranscribeStreamingState } from './hooks/useTranscribeStreaming';
 
 const App: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [content, setContent] = useState('');
-  const [language, setLanguage] = useState('日本語');
+  const [language] = useState('日本語');
   const [questionedContents, setQuestionedContents] = useState<string[]>(['']);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { recording } = useTranscribeStreamingState();
+  // const { recording } = useTranscribeStreamingState();
 
   const { startThinking, stopThinking, startSpeech } = useAvatar();
   const { answerText, question } = useQuestion();
@@ -63,15 +63,11 @@ const App: React.FC = () => {
       stopThinking,
     ],
   );
-  const onChangeLanguage = useCallback(
-    (lang: string) => {
-      setLanguage(lang);
-      i18n.changeLanguage(
-        LANGUAGE_OPTIONS.filter((l) => l.value === lang)[0].code,
-      );
-    },
-    [i18n],
-  );
+
+  const onRegisterPrompt = useCallback(() => {
+    const systemPrompt = sessionStorage.getItem('systemPrompt');
+    console.log(systemPrompt);
+  }, []);
 
   const onRegisterPrompt = useCallback(() => {
     const systemPrompt = sessionStorage.getItem('systemPrompt');
@@ -132,7 +128,7 @@ const App: React.FC = () => {
                     overflowY: 'auto',
                     backgroundColor: '#e0f7fa',
                     color: '#000000'
-                }}
+                  }}
                 >
                   {answerText.split(/\n/).map((line, index) => (
                     line.trim() === '' ? <br key={index} /> : <div key={index}>{line}</div>
