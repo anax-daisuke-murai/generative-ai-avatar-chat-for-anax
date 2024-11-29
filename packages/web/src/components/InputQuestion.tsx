@@ -5,6 +5,7 @@ import {
   FaMicrophone,
   FaMicrophoneSlash,
   FaPaperPlane,
+  FaMoon,
 } from 'react-icons/fa6';
 import useTranscribeStreaming from '../hooks/useTranscribeStreaming';
 import ButtonIcon from './ButtonIcon';
@@ -19,9 +20,21 @@ type Props = {
   disabled?: boolean;
   onChange: (s: string) => void;
   onSend: (content: string) => void;
+  onRegisterPrompt: () => void;
 };
 
 const InputQuestion: React.FC<Props> = (props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [textareaValue, setTextareaValue] = useState('');
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   const { t } = useTranslation();
   const disabledSend = useMemo(() => {
     return props.content === '' || props.disabled;
@@ -112,6 +125,16 @@ const InputQuestion: React.FC<Props> = (props) => {
 
         <ButtonIcon
           className="mx-5"
+          // disabled={disabledSend}
+          square
+          onClick={() => {
+            handleOpenModal();
+          }}>
+          <FaMoon />
+        </ButtonIcon>
+
+        <ButtonIcon
+          className="mx-5"
           disabled={disabledSend}
           square
           onClick={() => {
@@ -119,6 +142,41 @@ const InputQuestion: React.FC<Props> = (props) => {
           }}>
           <FaPaperPlane />
         </ButtonIcon>
+
+        {isModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-opacity-50"
+               style={{backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
+            <div className="bg-white p-5 rounded-lg shadow-lg max-w-screen-md w-full">
+              <textarea
+                className="w-full mt-4 p-2 border rounded resize-none"
+                placeholder="プロンプトを入力してください（最大1200文字）"
+                rows={15}
+                maxLength={1200}
+                value={textareaValue}
+                onChange={(e) => setTextareaValue(e.target.value)}
+              />
+              <div className="flex justify-end mt-4">
+                <button
+                  className="bg-blue-500 px-4 py-2 rounded hover:bg-blue-700 bg-primary text-text-white"
+                  onClick={() => {
+                    // props.onSend(props.content);
+                    sessionStorage.setItem('systemPrompt', textareaValue)
+                    handleCloseModal();
+                    props.onRegisterPrompt();
+                  }}
+                >
+                  登録
+                </button>
+                <button
+                  className="ml-2 bg-gray-500 px-4 py-2 rounded hover:bg-gray-700 bg-primary text-text-white"
+                  onClick={handleCloseModal}
+                >
+                  閉じる
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

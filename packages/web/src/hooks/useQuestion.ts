@@ -54,6 +54,7 @@ const useQuestion = () => {
     answerText,
     question: async (
       content: string,
+      prompt: string,
       language: string,
       languageCode: string,
       speechAction: () => void
@@ -63,6 +64,7 @@ const useQuestion = () => {
 
         const stream = questionStream({
           question: content,
+          prompt: prompt,
           questionLang: language,
           questionLangCode: languageCode,
         });

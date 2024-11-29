@@ -4,7 +4,14 @@ import {
   LambdaClient,
 } from '@aws-sdk/client-lambda';
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-identity';
-import { QuestionRequest } from 'rag-avatar-demo';
+// import { QuestionRequest } from 'rag-avatar-demo';
+
+type QuestionRequest = {
+  question: string;
+  prompt: string;
+  questionLang: string;
+  questionLangCode: string;
+};
 
 const useQuestionApi = () => {
   return {
